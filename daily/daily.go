@@ -3,6 +3,7 @@ package daily
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 	"unicode"
 )
 
@@ -344,4 +345,24 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+/**
+https://leetcode.cn/problems/rank-transform-of-an-array/
+
+*/
+func arrayRankTransform(arr []int) []int {
+	sortedArr := append([]int{}, arr...)
+	sort.Ints(sortedArr)
+	m := make(map[int]int)
+	for _, v := range sortedArr {
+		if _, ok := m[v]; !ok {
+			m[v] = len(m) + 1
+		}
+	}
+	ans := make([]int, len(arr))
+	for k, v := range arr {
+		ans[k] = m[v]
+	}
+	return ans
 }
