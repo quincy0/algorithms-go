@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"sort"
+	"strings"
 	"unicode"
 )
 
@@ -365,4 +366,40 @@ func arrayRankTransform(arr []int) []int {
 		ans[k] = m[v]
 	}
 	return ans
+}
+
+/**
+https://leetcode.cn/problems/maximum-level-sum-of-a-binary-tree/
+时间复杂度：O(n)
+空间复杂度：O(n)
+*/
+func maxLevelSum(root *TreeNode) int {
+	ans, maxSum := 1, root.Val
+	q := []*TreeNode{root}
+	for level := 1; len(q) > 0; level++ {
+		sum := 0
+		p := q
+		q = nil
+		for _, node := range p {
+			sum += node.Val
+			if node.Left != nil {
+				q = append(q, node.Left)
+			}
+			if node.Right != nil {
+				q = append(q, node.Right)
+			}
+		}
+		if sum > maxSum {
+			ans = level
+			maxSum = sum
+		}
+	}
+	return ans
+}
+
+func generateTheString(n int) string {
+	if n%2 == 1 {
+		return strings.Repeat("a", n)
+	}
+	return strings.Repeat("a", n-1) + "b"
 }
