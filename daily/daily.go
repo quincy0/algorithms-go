@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/rand"
 	"sort"
+	"strconv"
 	"strings"
 	"unicode"
 )
@@ -402,4 +403,77 @@ func generateTheString(n int) string {
 		return strings.Repeat("a", n)
 	}
 	return strings.Repeat("a", n-1) + "b"
+}
+
+/*
+https://leetcode.cn/problems/orderly-queue/
+时间复杂度：O(n^2)
+空间复杂度：O(n)
+*/
+func orderlyQueue(s string, k int) string {
+	if k == 1 {
+		ans := s
+		for i := 0; i < len(s); i++ {
+			s = s[1:] + s[:1]
+			if s < ans {
+				ans = s
+			}
+		}
+		return ans
+	}
+	t := []byte(s)
+	sort.Slice(t, func(i, j int) bool {
+		return t[i] < t[j]
+	})
+	return string(t)
+}
+
+/**
+https://leetcode.cn/problems/minimum-subsequence-in-non-increasing-order/
+时间复杂度：O(nlogn)
+空间复杂度：O(logn)
+*/
+func minSubsequence(nums []int) []int {
+	sort.Sort(sort.Reverse(sort.IntSlice(nums)))
+	tot := 0
+	for _, num := range nums {
+		tot += num
+	}
+	for i, sum := 0, 0; ; i++ {
+		sum += nums[i]
+		if sum > tot-sum {
+			return nums[:i+1]
+		}
+	}
+}
+
+/**
+https://leetcode.cn/problems/exclusive-time-of-functions/
+*/
+func exclusiveTime(n int, logs []string) []int {
+	ans := make([]int, n)
+	type pair struct {
+		idx, timestamp int
+	}
+	stack := []pair{}
+	for _, log := range logs {
+		data := strings.Split(log, ":")
+		idx, _ := strconv.Atoi(data[0])
+		timestamp, _ := strconv.Atoi(data[2])
+		if data[1][0] == 's' {
+			if len(stack) > 0 {
+				ans[stack[len(stack)-1].idx] += timestamp - stack[len(stack)-1].timestamp
+				stack[len(stack)-1].timestamp = timestamp
+			}
+			stack = append(stack, pair{idx, timestamp})
+		} else {
+			p := stack[len(stack)-1]
+			stack = stack[:len(stack)-1]
+			ans[idx] += timestamp - p.timestamp + 1
+			if len(stack) > 0 {
+				stack[len(stack)-1].timestamp = timestamp + 1
+			}
+		}
+	}
+	return ans
 }
