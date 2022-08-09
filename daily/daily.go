@@ -498,3 +498,17 @@ func makeLargestSpecial(s string) string {
 	sort.Sort(sort.Reverse(subs))
 	return strings.Join(subs, "")
 }
+
+/**
+https://leetcode.cn/problems/minimum-value-to-get-positive-step-by-step-sum/
+*/
+func minStartValue(nums []int) int {
+	min, sum := 0, 0
+	for _, v := range nums {
+		sum += v
+		if min > sum {
+			min = sum
+		}
+	}
+	return 1 - min
+}
