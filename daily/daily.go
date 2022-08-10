@@ -512,3 +512,50 @@ func minStartValue(nums []int) int {
 	}
 	return 1 - min
 }
+
+/**
+https://leetcode.cn/problems/solve-the-equation/
+时间复杂度：O(n)
+空间复杂度：O(1)
+*/
+func SolveEquation(equation string) string {
+	factor, val, sign := 0, 0, 1
+	for i, n := 0, len(equation); i < n; {
+		if equation[i] == '=' {
+			sign = -1
+			i++
+			continue
+		}
+		s := sign
+		if equation[i] == '+' {
+			i++
+		} else if equation[i] == '-' {
+			s = -s
+			i++
+		}
+
+		num, valid := 0, false
+		for i < n && unicode.IsDigit(rune(equation[i])) {
+			valid = true
+			num = num*10 + int(equation[i]-'0')
+			i++
+		}
+		if i < n && equation[i] == 'x' {
+			if valid {
+				s *= num
+			}
+			factor += s
+			i++
+		} else {
+			val += s * num
+		}
+
+	}
+	if factor == 0 {
+		if val == 0 {
+			return "Infinite solutions"
+		}
+		return "No solution"
+	}
+	return fmt.Sprintf("x=%d", -val/factor)
+}
