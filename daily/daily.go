@@ -559,3 +559,32 @@ func SolveEquation(equation string) string {
 	}
 	return fmt.Sprintf("x=%d", -val/factor)
 }
+
+/**
+https://leetcode.cn/problems/reformat-the-string/
+时间复杂度：O(N)
+空间复杂度：O(N)
+*/
+func reformat(s string) string {
+	digitCount := 0
+	for _, v := range s {
+		if unicode.IsDigit(v) {
+			digitCount++
+		}
+	}
+	alphaCount := len(s) - digitCount
+	if abs(digitCount-alphaCount) > 1 {
+		return ""
+	}
+	flag := digitCount > alphaCount
+	t := []byte(s)
+	for i, j := 0, 1; i < len(t); i += 2 {
+		if unicode.IsDigit(rune(t[i])) != flag {
+			for unicode.IsDigit(rune(t[j])) != flag {
+				j += 2
+			}
+			t[i], t[j] = t[j], t[i]
+		}
+	}
+	return string(t)
+}
