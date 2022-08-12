@@ -588,3 +588,22 @@ func reformat(s string) string {
 	}
 	return string(t)
 }
+
+/**
+https://leetcode.cn/problems/group-the-people-given-the-group-size-they-belong-to/
+时间复杂度：O(N)
+空间复杂度：O(N)
+*/
+func groupThePeople(groupSizes []int) [][]int {
+	groups := map[int][]int{}
+	ans := [][]int{}
+	for k, size := range groupSizes {
+		groups[size] = append(groups[size], k)
+	}
+	for size, people := range groups {
+		for i := 0; i < len(people); i += size {
+			ans = append(ans, people[i:i+size])
+		}
+	}
+	return ans
+}
