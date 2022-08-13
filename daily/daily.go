@@ -607,3 +607,45 @@ func groupThePeople(groupSizes []int) [][]int {
 	}
 	return ans
 }
+
+/**
+https://leetcode.cn/problems/max-chunks-to-make-sorted-ii/submissions/
+*/
+func maxChunksToSorted(arr []int) int {
+	sortedArr := append([]int{}, arr...)
+	sort.Ints(sortedArr)
+	cnt := make(map[int]int)
+	ans := 0
+	for i, x := range arr {
+		cnt[x]++
+		if cnt[x] == 0 {
+			delete(cnt, x)
+		}
+		y := sortedArr[i]
+		cnt[y]--
+		if cnt[sortedArr[i]] == 0 {
+			delete(cnt, sortedArr[i])
+		}
+		if len(cnt) == 0 {
+			ans++
+		}
+	}
+	return ans
+}
+
+func maxChunksToSortedII(arr []int) int {
+	st := []int{}
+	for _, v := range arr {
+		if len(st) == 0 || st[len(st)-1] <= v {
+			st = append(st, v)
+		} else {
+			max := st[len(st)-1]
+			st = st[:len(st)-1]
+			for len(st) > 0 && st[len(st)-1] > v {
+				st = st[:len(st)-1]
+			}
+			st = append(st, max)
+		}
+	}
+	return len(st)
+}
