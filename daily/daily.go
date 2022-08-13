@@ -610,8 +610,10 @@ func groupThePeople(groupSizes []int) [][]int {
 
 /**
 https://leetcode.cn/problems/max-chunks-to-make-sorted-ii/submissions/
+时间复杂度：O(N)
+空间复杂度：O(N)
 */
-func maxChunksToSorted(arr []int) int {
+func maxChunksToSortedII(arr []int) int {
 	sortedArr := append([]int{}, arr...)
 	sort.Ints(sortedArr)
 	cnt := make(map[int]int)
@@ -633,7 +635,7 @@ func maxChunksToSorted(arr []int) int {
 	return ans
 }
 
-func maxChunksToSortedII(arr []int) int {
+func maxChunksToSortedII2(arr []int) int {
 	st := []int{}
 	for _, v := range arr {
 		if len(st) == 0 || st[len(st)-1] <= v {
@@ -648,4 +650,22 @@ func maxChunksToSortedII(arr []int) int {
 		}
 	}
 	return len(st)
+}
+
+/**
+https://leetcode.cn/problems/max-chunks-to-make-sorted/
+时间复杂度：O(N)
+空间复杂度：O(1)
+*/
+func maxChunksToSortedI(arr []int) int {
+	ans, max := 0, 0
+	for i, v := range arr {
+		if v > max {
+			max = v
+		}
+		if max == i {
+			ans++
+		}
+	}
+	return ans
 }
