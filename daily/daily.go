@@ -669,3 +669,24 @@ func maxChunksToSortedI(arr []int) int {
 	}
 	return ans
 }
+
+/**
+https://leetcode.cn/problems/maximum-score-after-splitting-a-string/
+时间复杂度：O(N)
+空间复杂度：O(1)
+*/
+func maxScore(s string) int {
+	score := int('1'-s[0]) + strings.Count(s[1:], "1")
+	ans := score
+	for _, v := range s[1 : len(s)-1] {
+		if v == '0' {
+			score++
+		} else {
+			score--
+		}
+		if ans < score {
+			ans = score
+		}
+	}
+	return ans
+}
