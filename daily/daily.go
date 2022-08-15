@@ -690,3 +690,103 @@ func maxScore(s string) int {
 	}
 	return ans
 }
+
+/**
+https://leetcode.cn/problems/design-circular-deque/
+*/
+type MyCircularDeque struct {
+	head    *CircularDequeNode
+	tail    *CircularDequeNode
+	maxLen  int
+	currLen int
+}
+
+type CircularDequeNode struct {
+	val    int
+	next   *CircularDequeNode
+	prefix *CircularDequeNode
+}
+
+func CircularDequeConstructor(k int) MyCircularDeque {
+	return MyCircularDeque{maxLen: k}
+}
+
+func (this *MyCircularDeque) InsertFront(value int) bool {
+	if this.IsFull() {
+		return false
+	}
+	newNode := &CircularDequeNode{val: value}
+	if this.currLen == 0 {
+		this.head = newNode
+		this.tail = newNode
+	} else {
+		newNode.next = this.head
+		this.head.prefix = newNode
+		this.head = newNode
+	}
+	this.currLen++
+	return true
+}
+
+func (this *MyCircularDeque) InsertLast(value int) bool {
+	if this.IsFull() {
+		return false
+	}
+	newNode := &CircularDequeNode{val: value}
+	if this.currLen == 0 {
+		this.head = newNode
+		this.tail = newNode
+	} else {
+		this.tail.next = newNode
+		newNode.prefix = this.tail
+		this.tail = newNode
+	}
+	this.currLen++
+	return true
+}
+
+func (this *MyCircularDeque) DeleteFront() bool {
+	if this.IsEmpty() {
+		return false
+	}
+	this.head = this.head.next
+	if this.head == nil {
+		this.tail = nil
+	}
+	this.currLen--
+	return true
+}
+
+func (this *MyCircularDeque) DeleteLast() bool {
+	if this.IsEmpty() {
+		return false
+	}
+	this.tail = this.tail.prefix
+	if this.tail == nil {
+		this.head = nil
+	}
+	this.currLen--
+	return true
+}
+
+func (this *MyCircularDeque) GetFront() int {
+	if this.currLen == 0 {
+		return -1
+	}
+	return this.head.val
+}
+
+func (this *MyCircularDeque) GetRear() int {
+	if this.currLen == 0 {
+		return -1
+	}
+	return this.tail.val
+}
+
+func (this *MyCircularDeque) IsEmpty() bool {
+	return this.currLen == 0
+}
+
+func (this *MyCircularDeque) IsFull() bool {
+	return this.maxLen == this.currLen
+}
