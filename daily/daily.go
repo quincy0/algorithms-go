@@ -790,3 +790,30 @@ func (this *MyCircularDeque) IsEmpty() bool {
 func (this *MyCircularDeque) IsFull() bool {
 	return this.maxLen == this.currLen
 }
+
+/**
+https://leetcode.cn/problems/design-an-ordered-stream/
+时间复杂度：O(N)
+空间复杂度：O(N)
+*/
+type OrderedStream struct {
+	ptr  int
+	data []string
+}
+
+func OrderedStreamConstructor(n int) OrderedStream {
+	return OrderedStream{ptr: 1, data: make([]string, n)}
+}
+
+func (this *OrderedStream) Insert(idKey int, value string) []string {
+	this.data[idKey-1] = value
+	if this.ptr == idKey {
+		i := idKey
+		for i < len(this.data) && this.data[i] != "" {
+			i++
+		}
+		this.ptr = i + 1
+		return this.data[idKey-1 : i]
+	}
+	return []string{}
+}
