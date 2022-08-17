@@ -817,3 +817,48 @@ func (this *OrderedStream) Insert(idKey int, value string) []string {
 	}
 	return []string{}
 }
+
+/**
+https://leetcode.cn/problems/deepest-leaves-sum/
+时间复杂度：O(N)
+空间复杂度：O(N)
+*/
+func deepestLeavesSum(root *TreeNode) (sum int) {
+	queue := []*TreeNode{root}
+	for len(queue) > 0 {
+		sum = 0
+		size := len(queue)
+		for i := 0; i < size; i++ {
+			node := queue[0]
+			queue = queue[1:]
+			sum += node.Val
+			if node.Left != nil {
+				queue = append(queue, node.Left)
+			}
+			if node.Right != nil {
+				queue = append(queue, node.Right)
+			}
+		}
+	}
+	return
+}
+
+func deepestLeavesSumII(root *TreeNode) (sum int) {
+	maxLevel := -1
+	var dfs func(*TreeNode, int)
+	dfs = func(node *TreeNode, level int) {
+		if node == nil {
+			return
+		}
+		if level > maxLevel {
+			maxLevel = level
+			sum = node.Val
+		} else if level == maxLevel {
+			sum += node.Val
+		}
+		dfs(node.Left, level+1)
+		dfs(node.Right, level+1)
+	}
+	dfs(root, 0)
+	return
+}
