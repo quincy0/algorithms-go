@@ -862,3 +862,30 @@ func deepestLeavesSumII(root *TreeNode) (sum int) {
 	dfs(root, 0)
 	return
 }
+
+/**
+https://leetcode.cn/problems/maximum-equal-frequency/
+时间复杂度：O(N)
+空间复杂度：O(N)
+*/
+func maxEqualFreq(nums []int) int {
+	count, freq, maxFreq := make(map[int]int), make(map[int]int), 0
+	ans := 0
+
+	for i, num := range nums {
+		if count[num] > 0 {
+			freq[count[num]]--
+		}
+		count[num]++
+		freq[count[num]]++
+		if maxFreq < count[num] {
+			maxFreq = count[num]
+		}
+		if maxFreq == 1 || freq[maxFreq]*maxFreq+freq[maxFreq-1]*(maxFreq-1) == i+1 && freq[maxFreq] == 1 || freq[maxFreq]*maxFreq+1 == i+1 && freq[1] == 1 {
+			if ans < i+1 {
+				ans = i + 1
+			}
+		}
+	}
+	return ans
+}
