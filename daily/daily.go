@@ -889,3 +889,18 @@ func maxEqualFreq(nums []int) int {
 	}
 	return ans
 }
+
+/**
+https://leetcode.cn/problems/number-of-students-doing-homework-at-a-given-time/
+时间复杂度：O(N)
+空间复杂度：O(1)
+*/
+func busyStudent(startTime []int, endTime []int, queryTime int) int {
+	count := 0
+	for i := 0; i < len(startTime); i++ {
+		if startTime[i] <= queryTime && endTime[i] >= queryTime {
+			count++
+		}
+	}
+	return count
+}
