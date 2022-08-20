@@ -904,3 +904,48 @@ func busyStudent(startTime []int, endTime []int, queryTime int) int {
 	}
 	return count
 }
+
+/**
+https://leetcode.cn/problems/maximum-binary-tree/
+时间复杂度：O(N^2)
+空间复杂度：O(N)
+*/
+func constructMaximumBinaryTreeI(nums []int) *TreeNode {
+	if len(nums) == 0 {
+		return nil
+	}
+	index := 0
+	for i, v := range nums {
+		if v > nums[index] {
+			index = i
+		}
+	}
+	root := &TreeNode{
+		Val:   nums[index],
+		Left:  constructMaximumBinaryTreeI(nums[:index]),
+		Right: constructMaximumBinaryTreeI(nums[index+1:]),
+	}
+	return root
+}
+
+/**
+时间复杂度：O(N)
+空间复杂度：O(N)
+*/
+func constructMaximumBinaryTreeII(nums []int) *TreeNode {
+	tree := make([]*TreeNode, len(nums))
+	stk := []int{}
+	for i, num := range nums {
+		tree[i] = &TreeNode{Val: num}
+
+		for len(stk) > 0 && num > nums[stk[len(stk)-1]] {
+			tree[i].Left = tree[stk[len(stk)-1]]
+			stk = stk[:len(stk)-1]
+		}
+		if len(stk) > 0 {
+			tree[stk[len(stk)-1]].Right = tree[i]
+		}
+		stk = append(stk, i)
+	}
+	return tree[stk[0]]
+}
