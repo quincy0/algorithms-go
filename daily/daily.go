@@ -949,3 +949,36 @@ func constructMaximumBinaryTreeII(nums []int) *TreeNode {
 	}
 	return tree[stk[0]]
 }
+
+/**
+https://leetcode.cn/problems/next-greater-element-ii/
+*/
+func nextGreaterElements(nums []int) []int {
+	stack := []int{}
+	n := len(nums)
+	ans := make([]int, n)
+	for i := 0; i < n; i++ {
+		ans[i] = -1
+	}
+	for i := 0; i < n*2-1; i++ {
+		for len(stack) > 0 && nums[i%n] > nums[stack[len(stack)-1]] {
+			ans[stack[len(stack)-1]] = nums[i%n]
+			stack = stack[:len(stack)-1]
+		}
+		stack = append(stack, i%n)
+	}
+	return ans
+}
+
+/**
+https://leetcode.cn/problems/check-if-a-word-occurs-as-a-prefix-of-any-word-in-a-sentence/
+*/
+func isPrefixOfWord(sentence string, searchWord string) int {
+	split := strings.Split(sentence, " ")
+	for i, str := range split {
+		if strings.HasPrefix(str, searchWord) {
+			return i + 1
+		}
+	}
+	return -1
+}
