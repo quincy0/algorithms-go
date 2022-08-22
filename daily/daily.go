@@ -982,3 +982,42 @@ func isPrefixOfWord(sentence string, searchWord string) int {
 	}
 	return -1
 }
+
+/**
+https://leetcode.cn/problems/print-binary-tree/
+*/
+func printTree(root *TreeNode) [][]string {
+	var calDepth func(*TreeNode) int
+	calDepth = func(node *TreeNode) int {
+		depth := 0
+		if node.Left != nil {
+			depth = calDepth(node.Left) + 1
+		}
+		if node.Right != nil {
+			depthRight := calDepth(node.Right) + 1
+			if depthRight > depth {
+				depth = depthRight
+			}
+		}
+		return depth
+	}
+	height := calDepth(root)
+	m := height + 1
+	ans := make([][]string, m)
+	n := 1<<m - 1
+	for i := range ans {
+		ans[i] = make([]string, n)
+	}
+	var dfs func(*TreeNode, int, int)
+	dfs = func(node *TreeNode, r int, c int) {
+		ans[r][c] = strconv.Itoa(node.Val)
+		if node.Left != nil {
+			dfs(node.Left, r+1, c-1<<(height-r-1))
+		}
+		if node.Right != nil {
+			dfs(node.Right, r+1, c+1<<(height-r-1))
+		}
+	}
+	dfs(root, 0, (n-1)/2)
+	return ans
+}
