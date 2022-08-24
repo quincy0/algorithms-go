@@ -1096,3 +1096,22 @@ func min(a, b int) int {
 	}
 	return a
 }
+
+/**
+https://leetcode.cn/problems/make-two-arrays-equal-by-reversing-sub-arrays/
+时间复杂度：O(N)
+空间复杂度：O(N)
+*/
+func canBeEqual(target []int, arr []int) bool {
+	cnt := map[int]int{}
+	for i := 0; i < len(target); i++ {
+		cnt[target[i]]++
+		cnt[arr[i]]--
+	}
+	for _, c := range cnt {
+		if c != 0 {
+			return false
+		}
+	}
+	return true
+}
