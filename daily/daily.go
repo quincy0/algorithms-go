@@ -1135,3 +1135,21 @@ func findClosestElements(arr []int, k int, x int) []int {
 	}
 	return arr[left+1 : right]
 }
+
+/**
+https://leetcode.cn/problems/maximum-product-of-two-elements-in-an-array/
+*/
+func maxProduct(nums []int) int {
+	a, b := nums[0], nums[1]
+	if a < b {
+		a, b = b, a
+	}
+	for _, num := range nums[2:] {
+		if num > a {
+			a, b = num, a
+		} else if num > b {
+			b = num
+		}
+	}
+	return (a - 1) * (b - 1)
+}
