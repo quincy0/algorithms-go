@@ -1187,3 +1187,19 @@ type pair struct {
 	node  *TreeNode
 	index int
 }
+
+func widthOfBinaryTreeII(root *TreeNode) int {
+	levelMin := map[int]int{}
+	var dfs func(*TreeNode, int, int) int
+	dfs = func(node *TreeNode, depth int, index int) int {
+		if node == nil {
+			return 0
+		}
+		if _, ok := levelMin[depth]; !ok {
+			levelMin[depth] = index
+		}
+		width := max(dfs(node.Left, depth+1, index*2), dfs(node.Right, depth+1, index*2+1))
+		return max(index-levelMin[depth]+1, width)
+	}
+	return dfs(root, 1, 1)
+}
