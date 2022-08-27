@@ -1153,3 +1153,37 @@ func maxProduct(nums []int) int {
 	}
 	return (a - 1) * (b - 1)
 }
+
+/**
+https://leetcode.cn/problems/maximum-width-of-binary-tree/
+时间复杂度：O(N)
+空间复杂度：O(N)
+*/
+func widthOfBinaryTree(root *TreeNode) int {
+	queue := []pair{{root, 1}}
+
+	max := 1
+	for len(queue) > 0 {
+		width := queue[len(queue)-1].index - queue[0].index + 1
+		if width > max {
+			max = width
+		}
+
+		temp := queue
+		queue = nil
+		for _, data := range temp {
+			if data.node.Left != nil {
+				queue = append(queue, pair{data.node.Left, data.index * 2})
+			}
+			if data.node.Right != nil {
+				queue = append(queue, pair{data.node.Right, data.index*2 + 1})
+			}
+		}
+	}
+	return max
+}
+
+type pair struct {
+	node  *TreeNode
+	index int
+}
