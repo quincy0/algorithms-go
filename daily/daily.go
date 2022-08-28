@@ -1203,3 +1203,22 @@ func widthOfBinaryTreeII(root *TreeNode) int {
 	}
 	return dfs(root, 1, 1)
 }
+
+/**
+https://leetcode.cn/problems/preimage-size-of-factorial-zeroes-function/
+*/
+func zeta(n int) (res int) {
+	for n > 0 {
+		n /= 5
+		res += n
+	}
+	return
+}
+
+func nx(k int) int {
+	return sort.Search(5*k, func(x int) bool { return zeta(x) >= k })
+}
+
+func preimageSizeFZF(k int) int {
+	return nx(k+1) - nx(k)
+}
