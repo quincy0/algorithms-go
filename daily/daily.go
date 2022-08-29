@@ -1222,3 +1222,17 @@ func nx(k int) int {
 func preimageSizeFZF(k int) int {
 	return nx(k+1) - nx(k)
 }
+
+/**
+https://leetcode.cn/problems/shuffle-the-array/
+时间复杂度：O(N)
+空间复杂度：O(1)
+*/
+func shuffle(nums []int, n int) []int {
+	ans := make([]int, 2*n)
+	for x := 0; x < n; x++ {
+		ans[2*x] = nums[x]
+		ans[2*x+1] = nums[x+n]
+	}
+	return ans
+}
