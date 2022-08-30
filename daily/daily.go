@@ -1236,3 +1236,25 @@ func shuffle(nums []int, n int) []int {
 	}
 	return ans
 }
+
+/**
+https://leetcode.cn/problems/maximum-binary-tree-ii/
+时间复杂度：O(N)
+空间复杂度：O(1)
+*/
+func insertIntoMaxTree(root *TreeNode, val int) *TreeNode {
+	var parent *TreeNode
+	for curr := root; curr.Right != nil; curr = curr.Right {
+		if val > curr.Val {
+			if parent == nil {
+				return &TreeNode{val, root, nil}
+			} else {
+				parent.Right = &TreeNode{val, curr, nil}
+				return root
+			}
+		}
+		parent = curr
+	}
+	parent.Right = &TreeNode{Val: val}
+	return root
+}
