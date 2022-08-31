@@ -1258,3 +1258,21 @@ func insertIntoMaxTree(root *TreeNode, val int) *TreeNode {
 	parent.Right = &TreeNode{Val: val}
 	return root
 }
+
+/**
+https://leetcode.cn/problems/validate-stack-sequences/
+时间复杂度：O(N)
+空间复杂度：O(N)
+*/
+func validateStackSequences(pushed []int, popped []int) bool {
+	stack := []int{}
+	j := 0
+	for _, pushVal := range pushed {
+		stack = append(stack, pushVal)
+		for len(stack) > 0 && stack[len(stack)-1] == popped[j] {
+			stack = stack[:len(stack)-1]
+			j++
+		}
+	}
+	return len(stack) == 0
+}
