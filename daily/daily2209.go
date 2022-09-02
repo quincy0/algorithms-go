@@ -30,3 +30,35 @@ func finalPricesII(prices []int) []int {
 	}
 	return ans
 }
+
+/**
+https://leetcode.cn/problems/longest-univalue-path/
+时间复杂度：O(N)
+空间复杂度：O(N)
+*/
+func longestUnivaluePath(root *TreeNode) int {
+	ans := 0
+	var dfs func(*TreeNode) int
+	dfs = func(node *TreeNode) int {
+		if node == nil {
+			return 0
+		}
+		left, right := dfs(node.Left), dfs(node.Right)
+		nodeLeft, nodeRight := 0, 0
+		if node.Left != nil && node.Val == node.Left.Val {
+			nodeLeft = 1 + left
+		}
+		if node.Right != nil && node.Val == node.Right.Val {
+			nodeRight = 1 + right
+		}
+		if nodeLeft+nodeRight > ans {
+			ans = nodeLeft + nodeRight
+		}
+		if nodeLeft > nodeRight {
+			return nodeLeft
+		}
+		return nodeRight
+	}
+	dfs(root)
+	return ans
+}
