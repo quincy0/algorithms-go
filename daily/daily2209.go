@@ -1,5 +1,7 @@
 package daily
 
+import "sort"
+
 /**
 https://leetcode.cn/problems/final-prices-with-a-special-discount-in-a-shop/
 时间复杂度：O(N^2)
@@ -60,5 +62,26 @@ func longestUnivaluePath(root *TreeNode) int {
 		return nodeRight
 	}
 	dfs(root)
+	return ans
+}
+
+/**
+https://leetcode.cn/problems/maximum-length-of-pair-chain/
+时间复杂度：O(NlogN)
+空间复杂度：O(logN)
+*/
+func findLongestChain(pairs [][]int) int {
+	sort.Slice(pairs, func(i, j int) bool {
+		return pairs[i][1] < pairs[j][1]
+	})
+	ans := 1
+	a := pairs[0][1]
+	for i := 1; i < len(pairs); i++ {
+		b := pairs[i][0]
+		if b > a {
+			ans++
+			a = pairs[i][1]
+		}
+	}
 	return ans
 }
