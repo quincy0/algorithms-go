@@ -85,3 +85,36 @@ func findLongestChain(pairs [][]int) int {
 	}
 	return ans
 }
+
+/**
+https://leetcode.cn/problems/special-positions-in-a-binary-matrix/
+时间复杂度：O(M*N)
+空间复杂度：O(1)
+*/
+func numSpecial(mat [][]int) int {
+	for i, row := range mat {
+		cnt1 := 0
+		for _, v := range row {
+			if v == 1 {
+				cnt1++
+			}
+		}
+		if i == 0 {
+			cnt1--
+		}
+		if cnt1 > 0 {
+			for j, num := range row {
+				if num == 1 {
+					mat[0][j] += cnt1
+				}
+			}
+		}
+	}
+	ans := 0
+	for _, v := range mat[0] {
+		if v == 1 {
+			ans++
+		}
+	}
+	return ans
+}
