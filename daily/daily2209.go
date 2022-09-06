@@ -121,7 +121,7 @@ func numSpecial(mat [][]int) int {
 
 /**
 https://leetcode.cn/problems/find-duplicate-subtrees/
-时间复杂度：O(N)
+时间复杂度：O(N) A B A AB BA ABA
 空间复杂度：O(N)
 */
 func findDuplicateSubtrees(root *TreeNode) []*TreeNode {
@@ -150,6 +150,26 @@ func findDuplicateSubtrees(root *TreeNode) []*TreeNode {
 	ans := make([]*TreeNode, 0, len(repeat))
 	for node := range repeat {
 		ans = append(ans, node)
+	}
+	return ans
+}
+
+/**
+https://leetcode.cn/problems/count-unique-characters-of-all-substrings-of-a-given-string/
+时间复杂度：O(N)
+空间复杂度：O(N)
+*/
+func UniqueLetterString(s string) int {
+	idx := map[rune][]int{}
+	ans := 0
+	for i, c := range s {
+		idx[c] = append(idx[c], i)
+	}
+	for _, arr := range idx {
+		arr = append(append([]int{-1}, arr...), len(s))
+		for i := 1; i < len(arr)-1; i++ {
+			ans += (arr[i] - arr[i-1]) * (arr[i+1] - arr[i])
+		}
 	}
 	return ans
 }
