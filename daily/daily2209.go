@@ -1,6 +1,9 @@
 package daily
 
-import "sort"
+import (
+	"sort"
+	"strings"
+)
 
 /**
 https://leetcode.cn/problems/final-prices-with-a-special-discount-in-a-shop/
@@ -172,4 +175,19 @@ func UniqueLetterString(s string) int {
 		}
 	}
 	return ans
+}
+
+/**
+https://leetcode.cn/problems/rearrange-spaces-between-words/
+时间复杂度：O(N)
+空间复杂度：O(N)
+*/
+func reorderSpaces(text string) string {
+	words := strings.Fields(text)
+	space := strings.Count(text, " ")
+	l := len(words) - 1
+	if l == 0 {
+		return words[0] + strings.Repeat(" ", space)
+	}
+	return strings.Join(words, strings.Repeat(" ", space/l)) + strings.Repeat(" ", space%l)
 }
