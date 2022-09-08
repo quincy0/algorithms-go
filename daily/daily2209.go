@@ -191,3 +191,22 @@ func reorderSpaces(text string) string {
 	}
 	return strings.Join(words, strings.Repeat(" ", space/l)) + strings.Repeat(" ", space%l)
 }
+
+/**
+https://leetcode.cn/problems/beautiful-arrangement-ii/
+1 3 2 4 n4 k2
+*/
+func constructArray(n, k int) []int {
+	ans := make([]int, 0, n)
+	for i := 1; i < n-k; i++ {
+		ans = append(ans, i)
+	}
+	for i, j := n-k, n; i <= j; i++ {
+		ans = append(ans, i)
+		if i != j {
+			ans = append(ans, j)
+		}
+		j--
+	}
+	return ans
+}
