@@ -210,3 +210,22 @@ func constructArray(n, k int) []int {
 	}
 	return ans
 }
+
+/**
+https://leetcode.cn/problems/crawler-log-folder/
+*/
+func minOperations(logs []string) int {
+	deep := 0
+	for _, s := range logs {
+		if strings.HasPrefix(s, "../") {
+			if deep > 0 {
+				deep--
+			}
+		} else if strings.HasPrefix(s, "./") {
+			continue
+		} else {
+			deep++
+		}
+	}
+	return deep
+}
