@@ -315,3 +315,18 @@ func (h *hp) Pop() interface{} {
 	h.IntSlice = a[:len(a)-1]
 	return v
 }
+
+/**
+https://leetcode.cn/problems/special-array-with-x-elements-greater-than-or-equal-x/
+时间复杂度：O(NlogN)
+空间复杂度：O(logN)
+*/
+func specialArray(nums []int) int {
+	sort.Sort(sort.Reverse(sort.IntSlice(nums)))
+	for i := 0; i < len(nums); i++ {
+		if nums[i] >= i+1 && (i+1 == len(nums) || nums[i+1] < i+1) {
+			return i + 1
+		}
+	}
+	return -1
+}
