@@ -4,6 +4,7 @@ import (
 	"container/heap"
 	"math"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -329,4 +330,28 @@ func specialArray(nums []int) int {
 		}
 	}
 	return -1
+}
+
+/**
+https://leetcode.cn/problems/maximum-swap/submissions/
+时间复杂度：O(logNum)
+空间复杂度：O(logNum)
+*/
+func maximumSwap(num int) int {
+	s := []byte(strconv.Itoa(num))
+	n := len(s)
+	maxId, id1, id2 := n-1, -1, -1
+	for i := n - 1; i >= 0; i-- {
+		if s[maxId] < s[i] {
+			maxId = i
+		} else if s[maxId] > s[i] {
+			id1, id2 = i, maxId
+		}
+	}
+	if id1 < 0 {
+		return num
+	}
+	s[id1], s[id2] = s[id2], s[id1]
+	ans, _ := strconv.Atoi(string(s))
+	return ans
 }
