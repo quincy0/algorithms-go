@@ -355,3 +355,16 @@ func maximumSwap(num int) int {
 	ans, _ := strconv.Atoi(string(s))
 	return ans
 }
+
+/**
+https://leetcode.cn/problems/mean-of-array-after-removing-some-elements/
+*/
+func trimMean(arr []int) float64 {
+	sort.Ints(arr)
+	n := len(arr)
+	sum := 0
+	for _, num := range arr[n*5/100 : n*95/100] {
+		sum += num
+	}
+	return float64(sum*10) / float64(n*9)
+}
