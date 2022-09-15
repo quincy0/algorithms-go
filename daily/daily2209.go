@@ -368,3 +368,31 @@ func trimMean(arr []int) float64 {
 	}
 	return float64(sum*10) / float64(n*9)
 }
+
+/**
+https://leetcode.cn/problems/bulb-switcher-ii
+时间复杂度：O(1)
+空间复杂度：O(1)
+*/
+func flipLights(n int, presses int) int {
+	//不按开关
+	if presses == 0 {
+		return 1
+	}
+	if n == 1 {
+		return 2
+	}
+	if n == 2 {
+		if presses == 1 {
+			return 3
+		}
+		return 4
+	}
+	//n >= 3
+	if presses == 1 {
+		return 4
+	} else if presses == 2 {
+		return 7
+	}
+	return 8
+}
