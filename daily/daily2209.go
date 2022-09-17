@@ -485,3 +485,25 @@ func rectangleArea(rectangles [][]int) (ans int) {
 	}
 	return ans % (1e9 + 7)
 }
+
+/**
+https://leetcode.cn/problems/largest-substring-between-two-equal-characters
+*/
+func maxLengthBetweenEqualCharacters(s string) int {
+	ans := -1
+	firstIndex := [26]int{}
+	for i := 0; i < 26; i++ {
+		firstIndex[i] = -1
+	}
+	for i, c := range s {
+		c -= 'a'
+		if firstIndex[c] < 0 {
+			firstIndex[c] = i
+		} else {
+			if i-firstIndex[c]-1 > ans {
+				ans = i - firstIndex[c] - 1
+			}
+		}
+	}
+	return ans
+}
